@@ -16,7 +16,7 @@ With Simple GUI<br>
 
 # How To Use
 
-- Downlaod [.NET 10.0](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-10.0.7-windows-x64-installer?cid=getdotnetcore)
+- Download [.NET 10.0](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-10.0.7-windows-x64-installer?cid=getdotnetcore)
 - Download from [Release](https://github.com/GunahD/Graphics-Editor-for-Wuwa-game/releases) tab
 - Place in your Wuthering Waves files
 
