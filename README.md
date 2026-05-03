@@ -1,5 +1,5 @@
 <div align="center">
-<img src="images/phoebe" alt="lynae" width="200"/>
+<img src="images/phoebe.png" alt="phoebe" width="200"/>
 <h1>Phoebe Editor Reloaded</h1>
 </div>
 
@@ -16,10 +16,8 @@ With Simple GUI<br>
 
 # How To Use
 
+- Downlaod [.NET 10.0](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-10.0.7-windows-x64-installer?cid=getdotnetcore)
 - Download from [Release](https://github.com/GunahD/Graphics-Editor-for-Wuwa-game/releases) tab
-- Place in your Wuthering Waves files 
-<img src ="picture/Screenshot (270).png" alt="editorexe">
-- Run it (if needed run as administrator) and tweak as you like :)
-<img src ="picture/Screenshot (271).png" alt="editorapp">
+- Place in your Wuthering Waves files
 
 oh yeah use it at own risk!
