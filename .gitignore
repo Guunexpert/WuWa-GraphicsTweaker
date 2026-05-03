@@ -1,0 +1,10 @@
+bin/
+obj/
+.vs/
+*.user
+*.pdb
+**/publish/
+*.mov
+*.mp4
+*.avi
+*.jpg

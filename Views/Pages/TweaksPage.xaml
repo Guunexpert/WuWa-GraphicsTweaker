@@ -1,0 +1,495 @@
+<Page x:Class="PhoebeEditor.Views.Pages.TweaksPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Background="Transparent"
+      Title="Graphics Tweaks">
+
+    <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+        <!-- Reusable slider row template -->
+        <Style x:Key="SectionLabel" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="9" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="{StaticResource WuWaCyanBrush}" />
+            <Setter Property="Margin" Value="0,0,0,14" />
+        </Style>
+        <Style x:Key="RowLabel" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource WuWaTextBrush}" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+
+        </Style>
+        <Style x:Key="ValueLabel" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource WuWaGoldBrush}" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="Width" Value="55" />
+        </Style>
+    </Page.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="28,20,28,28">
+
+            <!-- Header -->
+            <TextBlock Text="GRAPHICS TWEAKS"
+                       FontSize="11" FontWeight="Bold"
+                       Foreground="{StaticResource WuWaTextMutedBrush}"
+                       Margin="0,0,0,4" />
+            <TextBlock Text="Engine Configuration"
+                       FontSize="26" FontWeight="Bold"
+                       Foreground="{StaticResource WuWaTextBrush}"
+                       Margin="0,0,0,8" />
+
+            <!-- Apply Status -->
+            <TextBlock Text="{Binding ApplyStatus}"
+                       Foreground="{StaticResource WuWaGoldBrush}"
+                       FontSize="12" Margin="0,0,0,20" />
+
+            <!-- ═══ RESOLUTION & UPSCALING ═══ -->
+            <Border Style="{StaticResource CardStyle}" Margin="0,0,0,10">
+                <StackPanel>
+                    <TextBlock Text="RESOLUTION &amp; UPSCALING" Style="{StaticResource SectionLabel}" />
+
+                    <!-- Screen Percentage -->
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="55" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Render Resolution %" Style="{StaticResource RowLabel}" />
+                        <Slider Grid.Column="1" Value="{Binding ScreenPercentage}"
+                                Minimum="25" Maximum="200" TickFrequency="5" IsSnapToTickEnabled="True"
+                                VerticalAlignment="Center" Margin="0,0,8,0" />
+                        <TextBlock Grid.Column="2" Text="{Binding ScreenPercentage}" Style="{StaticResource ValueLabel}" />
+                    </Grid>
+
+                    <!-- FSR Secondary Upscale -->
+                    <Grid Margin="0,0,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="FSR Secondary Upscale" Style="{StaticResource RowLabel}" />
+                            <TextBlock Text="Enable this if FSR is disabled in in-game settings"
+                                       Foreground="{StaticResource WuWaTextMutedBrush}" FontSize="11" />
+                        </StackPanel>
+                        <CheckBox Grid.Column="1" IsChecked="{Binding UseFsrSecondaryUpscale}" VerticalAlignment="Center" />
+                    </Grid>
+
+                    <!-- FSR Sharpness (hanya muncul kalau FSR aktif) -->
+                    <Grid Margin="0,0,0,0"
+                          Visibility="{Binding UseFsrSecondaryUpscale, Converter={StaticResource BoolToVis}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="55" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="FSR Sharpness" Style="{StaticResource RowLabel}" />
+                        <Slider Grid.Column="1" Value="{Binding FsrSharpness}"
+                                Minimum="0" Maximum="2" TickFrequency="0.1" IsSnapToTickEnabled="True"
+                                VerticalAlignment="Center" Margin="0,0,8,0" />
+                        <TextBlock Grid.Column="2" Text="{Binding FsrSharpness, StringFormat={}{0:F1}}" Style="{StaticResource ValueLabel}" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- ═══ SHADOWS ═══ -->
+            <Border Style="{StaticResource CardStyle}" Margin="0,0,0,10">
+                <StackPanel>
+                    <TextBlock Text="SHADOWS" Style="{StaticResource SectionLabel}" />
+
+                    <!-- Shadow Quality -->
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="55" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Shadow Quality" Style="{StaticResource RowLabel}" />
+                        <Slider Grid.Column="1" Value="{Binding ShadowQuality}"
+                                Minimum="0" Maximum="5" TickFrequency="1" IsSnapToTickEnabled="True"
+                                VerticalAlignment="Center" Margin="0,0,8,0" />
+                        <TextBlock Grid.Column="2" Text="{Binding ShadowQuality}" Style="{StaticResource ValueLabel}" />
+                    </Grid>
+
+                    <!-- Shadow CSM Resolution -->
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="55" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Shadow Map Res" Style="{StaticResource RowLabel}" />
+                        <Slider Grid.Column="1" Value="{Binding ShadowMaxCsmResolution}"
+                                Minimum="256" Maximum="4096" TickFrequency="256" IsSnapToTickEnabled="True"
+                                VerticalAlignment="Center" Margin="0,0,8,0" />
+                        <TextBlock Grid.Column="2" Text="{Binding ShadowMaxCsmResolution}" Style="{StaticResource ValueLabel}" />
+                    </Grid>
+
+                    <!-- Per Object Shadow -->
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="55" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Character Shadow Res" Style="{StaticResource RowLabel}" />
+                        <Slider Grid.Column="1" Value="{Binding ShadowPerObjectResolution}"
+                                Minimum="128" Maximum="2048" TickFrequency="128" IsSnapToTickEnabled="True"
+                                VerticalAlignment="Center" Margin="0,0,8,0" />
+                        <TextBlock Grid.Column="2" Text="{Binding ShadowPerObjectResolution}" Style="{StaticResource ValueLabel}" />
+                    </Grid>
+
+                    <!-- Toggles -->
+                    <Grid Margin="0,0,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Capsule Shadows" Style="{StaticResource RowLabel}" />
+                        <CheckBox Grid.Column="1" IsChecked="{Binding EnableCapsuleShadows}" VerticalAlignment="Center" />
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Contact Shadows" Style="{StaticResource RowLabel}" />
+                        <CheckBox Grid.Column="1" IsChecked="{Binding EnableContactShadows}" VerticalAlignment="Center" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- ═══ TEXTURES & STREAMING ═══ -->
+            <Border Style="{StaticResource CardStyle}" Margin="0,0,0,10">
+                <StackPanel>
+                    <TextBlock Text="TEXTURES &amp; STREAMING" Style="{StaticResource SectionLabel}" />
+
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="55" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Texture Pool (MB)" Style="{StaticResource RowLabel}" />
+                        <Slider Grid.Column="1" Value="{Binding TextureStreamingPoolSize}"
+                                Minimum="256" Maximum="8192" TickFrequency="256" IsSnapToTickEnabled="True"
+                                VerticalAlignment="Center" Margin="0,0,8,0" />
+                        <TextBlock Grid.Column="2" Text="{Binding TextureStreamingPoolSize}" Style="{StaticResource ValueLabel}" />
+                    </Grid>
+
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="55" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Max Anisotropy" Style="{StaticResource RowLabel}" />
+                        <Slider Grid.Column="1" Value="{Binding MaxAnisotropy}"
+                                Minimum="1" Maximum="16" TickFrequency="1" IsSnapToTickEnabled="True"
+                                VerticalAlignment="Center" Margin="0,0,8,0" />
+                        <TextBlock Grid.Column="2" Text="{Binding MaxAnisotropy}" Style="{StaticResource ValueLabel}" />
+                    </Grid>
+
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="55" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Streaming Mip Bias" Style="{StaticResource RowLabel}" />
+                        <Slider Grid.Column="1" Value="{Binding StreamingMipBias}"
+                                Minimum="-4" Maximum="4" TickFrequency="1" IsSnapToTickEnabled="True"
+                                VerticalAlignment="Center" Margin="0,0,8,0" />
+                        <TextBlock Grid.Column="2" Text="{Binding StreamingMipBias}" Style="{StaticResource ValueLabel}" />
+                    </Grid>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="55" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Texture Mip Bias" Style="{StaticResource RowLabel}" />
+                        <Slider Grid.Column="1" Value="{Binding ViewTextureMipBias}"
+                                Minimum="-4" Maximum="4" TickFrequency="1" IsSnapToTickEnabled="True"
+                                VerticalAlignment="Center" Margin="0,0,8,0" />
+                        <TextBlock Grid.Column="2" Text="{Binding ViewTextureMipBias}" Style="{StaticResource ValueLabel}" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- ═══ LOD & DISTANCE ═══ -->
+            <Border Style="{StaticResource CardStyle}" Margin="0,0,0,10">
+                <StackPanel>
+                    <TextBlock Text="LOD &amp; DISTANCE" Style="{StaticResource SectionLabel}" />
+
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="55" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="View Distance Scale" Style="{StaticResource RowLabel}" />
+                        <Slider Grid.Column="1" Value="{Binding ViewDistanceScale}"
+                                Minimum="0.5" Maximum="10.0" TickFrequency="0.5" IsSnapToTickEnabled="True"
+                                VerticalAlignment="Center" Margin="0,0,8,0" />
+                        <TextBlock Grid.Column="2" Text="{Binding ViewDistanceScale, StringFormat={}{0:F1}}" Style="{StaticResource ValueLabel}" />
+                    </Grid>
+
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="55" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Foliage LOD Scale" Style="{StaticResource RowLabel}" />
+                        <Slider Grid.Column="1" Value="{Binding FoliageLodDistanceScale}"
+                                Minimum="0.5" Maximum="10.0" TickFrequency="0.5" IsSnapToTickEnabled="True"
+                                VerticalAlignment="Center" Margin="0,0,8,0" />
+                        <TextBlock Grid.Column="2" Text="{Binding FoliageLodDistanceScale, StringFormat={}{0:F1}}" Style="{StaticResource ValueLabel}" />
+                    </Grid>
+
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="55" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Static Mesh LOD Scale" Style="{StaticResource RowLabel}" />
+                        <Slider Grid.Column="1" Value="{Binding StaticMeshLodDistanceScale}"
+                                Minimum="0.5" Maximum="10.0" TickFrequency="0.5" IsSnapToTickEnabled="True"
+                                VerticalAlignment="Center" Margin="0,0,8,0" />
+                        <TextBlock Grid.Column="2" Text="{Binding StaticMeshLodDistanceScale, StringFormat={}{0:F1}}" Style="{StaticResource ValueLabel}" />
+                    </Grid>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="55" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Skeletal Mesh LOD Bias" Style="{StaticResource RowLabel}" />
+                        <Slider Grid.Column="1" Value="{Binding SkeletalMeshLodBias}"
+                                Minimum="-2" Maximum="4" TickFrequency="1" IsSnapToTickEnabled="True"
+                                VerticalAlignment="Center" Margin="0,0,8,0" />
+                        <TextBlock Grid.Column="2" Text="{Binding SkeletalMeshLodBias}" Style="{StaticResource ValueLabel}" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- ═══ POST PROCESSING ═══ -->
+            <Border Style="{StaticResource CardStyle}" Margin="0,0,0,10">
+                <StackPanel>
+                    <TextBlock Text="POST PROCESSING" Style="{StaticResource SectionLabel}" />
+
+                    <UniformGrid Columns="2" Margin="0,0,0,0">
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Bloom" Style="{StaticResource RowLabel}" />
+                            <CheckBox Grid.Column="1" IsChecked="{Binding EnableBloom}" VerticalAlignment="Center" Margin="0,0,16,0" />
+                        </Grid>
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Motion Blur" Style="{StaticResource RowLabel}" />
+                            <CheckBox Grid.Column="1" IsChecked="{Binding EnableMotionBlur}" VerticalAlignment="Center" Margin="0,0,16,0" />
+                        </Grid>
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Ambient Occlusion" Style="{StaticResource RowLabel}" />
+                            <CheckBox Grid.Column="1" IsChecked="{Binding EnableAmbientOcclusion}" VerticalAlignment="Center" Margin="0,0,16,0" />
+                        </Grid>
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Depth of Field" Style="{StaticResource RowLabel}" />
+                            <CheckBox Grid.Column="1" IsChecked="{Binding EnableDepthOfField}" VerticalAlignment="Center" Margin="0,0,16,0" />
+                        </Grid>
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Lens Flare" Style="{StaticResource RowLabel}" />
+                            <CheckBox Grid.Column="1" IsChecked="{Binding EnableLensFlare}" VerticalAlignment="Center" Margin="0,0,16,0" />
+                        </Grid>
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Chromatic Aberration" Style="{StaticResource RowLabel}" />
+                            <CheckBox Grid.Column="1" IsChecked="{Binding EnableChromaticAberration}" VerticalAlignment="Center" Margin="0,0,16,0" />
+                        </Grid>
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Eye Adaptation" Style="{StaticResource RowLabel}" />
+                            <CheckBox Grid.Column="1" IsChecked="{Binding EnableEyeAdaptation}" VerticalAlignment="Center" Margin="0,0,16,0" />
+                        </Grid>
+                    </UniformGrid>
+                </StackPanel>
+            </Border>
+
+            <!-- ═══ ANTI-ALIASING ═══ -->
+            <Border Style="{StaticResource CardStyle}" Margin="0,0,0,10">
+                <StackPanel>
+                    <TextBlock Text="ANTI-ALIASING (TAA)" Style="{StaticResource SectionLabel}" />
+
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="55" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="TAA Samples" Style="{StaticResource RowLabel}" />
+                        <Slider Grid.Column="1" Value="{Binding TemporalAaSamples}"
+                                Minimum="1" Maximum="32" TickFrequency="1" IsSnapToTickEnabled="True"
+                                VerticalAlignment="Center" Margin="0,0,8,0" />
+                        <TextBlock Grid.Column="2" Text="{Binding TemporalAaSamples}" Style="{StaticResource ValueLabel}" />
+                    </Grid>
+
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="55" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="TAA Sharpen" Style="{StaticResource RowLabel}" />
+                        <Slider Grid.Column="1" Value="{Binding TemporalAaSharpen}"
+                                Minimum="0" Maximum="3" TickFrequency="0.1" IsSnapToTickEnabled="True"
+                                VerticalAlignment="Center" Margin="0,0,8,0" />
+                        <TextBlock Grid.Column="2" Text="{Binding TemporalAaSharpen, StringFormat={}{0:F1}}" Style="{StaticResource ValueLabel}" />
+                    </Grid>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="55" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="TAA Current Frame Weight" Style="{StaticResource RowLabel}" />
+                        <Slider Grid.Column="1" Value="{Binding TemporalAaCurrentFrameWeight}"
+                                Minimum="0.01" Maximum="0.5" TickFrequency="0.01" IsSnapToTickEnabled="True"
+                                VerticalAlignment="Center" Margin="0,0,8,0" />
+                        <TextBlock Grid.Column="2" Text="{Binding TemporalAaCurrentFrameWeight, StringFormat={}{0:F2}}" Style="{StaticResource ValueLabel}" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- ═══ LIGHTING & REFLECTIONS ═══ -->
+            <Border Style="{StaticResource CardStyle}" Margin="0,0,0,10">
+                <StackPanel>
+                    <TextBlock Text="LIGHTING &amp; REFLECTIONS" Style="{StaticResource SectionLabel}" />
+
+                    <Grid Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Screen Space Reflections (SSR)" Style="{StaticResource RowLabel}" />
+                        <CheckBox Grid.Column="1" IsChecked="{Binding EnableSsr}" VerticalAlignment="Center" />
+                    </Grid>
+
+                    <Grid Margin="0,0,0,12"
+                          Visibility="{Binding EnableSsr, Converter={StaticResource BoolToVis}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="55" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="SSR Quality" Style="{StaticResource RowLabel}" />
+                        <Slider Grid.Column="1" Value="{Binding SsrQuality}"
+                                Minimum="1" Maximum="4" TickFrequency="1" IsSnapToTickEnabled="True"
+                                VerticalAlignment="Center" Margin="0,0,8,0" />
+                        <TextBlock Grid.Column="2" Text="{Binding SsrQuality}" Style="{StaticResource ValueLabel}" />
+                    </Grid>
+
+                    <Grid Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Distance Field AO" Style="{StaticResource RowLabel}" />
+                        <CheckBox Grid.Column="1" IsChecked="{Binding EnableDistanceFieldAo}" VerticalAlignment="Center" />
+                    </Grid>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="55" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Reflection Capture Res" Style="{StaticResource RowLabel}" />
+                        <Slider Grid.Column="1" Value="{Binding ReflectionCaptureResolution}"
+                                Minimum="64" Maximum="1024" TickFrequency="64" IsSnapToTickEnabled="True"
+                                VerticalAlignment="Center" Margin="0,0,8,0" />
+                        <TextBlock Grid.Column="2" Text="{Binding ReflectionCaptureResolution}" Style="{StaticResource ValueLabel}" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- ═══ PERFORMANCE ═══ -->
+            <Border Style="{StaticResource CardStyle}" Margin="0,0,0,16">
+                <StackPanel>
+                    <TextBlock Text="PERFORMANCE" Style="{StaticResource SectionLabel}" />
+
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="VSync" Style="{StaticResource RowLabel}" />
+                        <CheckBox Grid.Column="1" IsChecked="{Binding EnableVSync}" VerticalAlignment="Center" />
+                    </Grid>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="55" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Frame Rate Limit" Style="{StaticResource RowLabel}" />
+                            <TextBlock Text="0 = unlimited" Foreground="{StaticResource WuWaTextMutedBrush}" FontSize="11" />
+                        </StackPanel>
+                        <Slider Grid.Column="1" Value="{Binding FrameRateLimit}"
+                                Minimum="0" Maximum="360" TickFrequency="30" IsSnapToTickEnabled="True"
+                                VerticalAlignment="Center" Margin="0,0,8,0" />
+                        <TextBlock Grid.Column="2" Text="{Binding FrameRateLimit}" Style="{StaticResource ValueLabel}" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Apply Button -->
+            <Button Command="{Binding ApplySettingsCommand}"
+                    Height="44"
+                    Background="{StaticResource WuWaSurface2Brush}"
+                    Foreground="{StaticResource WuWaCyanBrush}"
+                    BorderBrush="{StaticResource WuWaCyanBrush}"
+                    BorderThickness="1"
+                    FontWeight="Bold"
+                    FontSize="13"
+                    Content="APPLY SETTINGS"
+                    Cursor="Hand" />
+
+        </StackPanel>
+    </ScrollViewer>
+</Page>

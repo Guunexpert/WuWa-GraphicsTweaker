@@ -1,0 +1,110 @@
+<Page x:Class="PhoebeEditor.Views.Pages.PresetsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      Background="Transparent"
+      Title="Presets">
+
+    <Grid Margin="28,20,28,28">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,24">
+            <TextBlock Text="PRESETS"
+                       FontSize="11" FontWeight="Bold"
+                       Foreground="{StaticResource WuWaTextMutedBrush}"
+                       Margin="0,0,0,4" />
+            <TextBlock Text="Saved Configurations"
+                       FontSize="26" FontWeight="Bold"
+                       Foreground="{StaticResource WuWaTextBrush}" />
+        </StackPanel>
+
+        <!-- Save New Preset -->
+        <Border Grid.Row="1" Style="{StaticResource CardStyle}" Margin="0,0,0,12">
+            <StackPanel>
+                <TextBlock Text="SAVE NEW PRESET"
+                           FontSize="9" FontWeight="Bold"
+                           Foreground="{StaticResource WuWaTextMutedBrush}"
+                           Margin="0,0,0,10" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <ui:TextBox x:Name="TxtPresetName"
+                             Grid.Column="0"
+                             Background="#0D1117"
+                             Foreground="{StaticResource WuWaTextBrush}"
+                             BorderBrush="{StaticResource WuWaBorderBrush}"
+                             Padding="10,8"
+                             FontSize="13"
+                             PlaceholderText="Preset Name..."
+                             Margin="0,0,8,0" />
+                    <Button Grid.Column="1"
+                            Content="SAVE"
+                            Click="SavePreset_Click"
+                            Background="{StaticResource WuWaGoldGradientBrush}"
+                            Foreground="#0D1117"
+                            BorderThickness="0"
+                            FontWeight="Bold"
+                            Padding="16,8"
+                            Cursor="Hand" />
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <!-- Presets List -->
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding Presets}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Style="{StaticResource CardStyle}" Margin="0,0,0,8">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Name}"
+                                               Foreground="{StaticResource WuWaTextBrush}"
+                                               FontSize="14" FontWeight="Medium" />
+                                    <TextBlock Text="{Binding CreatedAt, StringFormat='Made: {0:dd MMM yyyy HH:mm}'}"
+                                               Foreground="{StaticResource WuWaTextMutedBrush}"
+                                               FontSize="11" />
+                                </StackPanel>
+
+                                <Button Grid.Column="1"
+                                        Content="Load"
+                                        Command="{Binding DataContext.LoadPresetCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                        CommandParameter="{Binding}"
+                                        Background="{StaticResource WuWaSurface2Brush}"
+                                        Foreground="{StaticResource WuWaCyanBrush}"
+                                        BorderBrush="{StaticResource WuWaCyanBrush}"
+                                        BorderThickness="1"
+                                        Padding="12,6"
+                                        Margin="0,0,8,0"
+                                        Cursor="Hand" />
+
+                                <Button Grid.Column="2"
+                                        Content="✕"
+                                        Command="{Binding DataContext.DeletePresetCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                        CommandParameter="{Binding}"
+                                        Background="Transparent"
+                                        Foreground="{StaticResource WuWaDangerBrush}"
+                                        BorderThickness="0"
+                                        Padding="8,6"
+                                        Cursor="Hand" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</Page>

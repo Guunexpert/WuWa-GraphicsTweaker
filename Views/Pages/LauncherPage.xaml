@@ -1,0 +1,166 @@
+<Page x:Class="PhoebeEditor.Views.Pages.LauncherPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      Background="Transparent"
+      Title="Launcher">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="28,20,28,28">
+
+            <!-- Header -->
+            <TextBlock Text="LAUNCHER"
+                       FontSize="11"
+                       FontWeight="Bold"
+                       Foreground="{StaticResource WuWaTextMutedBrush}"
+                       Margin="0,0,0,4" />
+            <TextBlock Text="Wuthering Waves"
+                       FontSize="26"
+                       FontWeight="Bold"
+                       Foreground="{StaticResource WuWaTextBrush}"
+                       Margin="0,0,0,24" />
+
+            <!-- Game Path Card -->
+            <Border Style="{StaticResource CardStyle}" Margin="0,0,0,12">
+                <StackPanel>
+                    <TextBlock Text="GAME LOCATION"
+                               FontSize="9"
+                               FontWeight="Bold"
+                               Foreground="{StaticResource WuWaTextMutedBrush}"
+                               Margin="0,0,0,10" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0"
+                                 Text="{Binding GamePath, UpdateSourceTrigger=PropertyChanged}"
+                                 Background="#0D1117"
+                                 Foreground="{StaticResource WuWaTextBrush}"
+                                 BorderBrush="{StaticResource WuWaBorderBrush}"
+                                 Padding="10,8"
+                                 FontFamily="Consolas"
+                                 FontSize="12"
+                                 Margin="0,0,8,0" />
+                        <Button Grid.Column="1"
+                                Content="Browse"
+                                Command="{Binding BrowseGamePathCommand}"
+                                Background="{StaticResource WuWaSurface2Brush}"
+                                Foreground="{StaticResource WuWaTextBrush}"
+                                BorderBrush="{StaticResource WuWaBorderBrush}"
+                                Padding="12,8"
+                                Margin="0,0,8,0"
+                                Cursor="Hand" />
+                        <Button Grid.Column="2"
+                                Content="Auto Detect"
+                                Command="{Binding AutoDetectGameCommand}"
+                                Background="#1C2128"
+                                Foreground="{StaticResource WuWaCyanBrush}"
+                                BorderBrush="{StaticResource WuWaCyanBrush}"
+                                Padding="12,8"
+                                Cursor="Hand" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Launch Flags Card -->
+            <Border Style="{StaticResource CardStyle}" Margin="0,0,0,12">
+                <StackPanel>
+                    <TextBlock Text="LAUNCH OPTIONS"
+                               FontSize="9"
+                               FontWeight="Bold"
+                               Foreground="{StaticResource WuWaTextMutedBrush}"
+                               Margin="0,0,0,10" />
+
+                    <!-- Default flags info -->
+                    <Border Background="#0D1117"
+                            BorderBrush="{StaticResource WuWaBorderBrush}"
+                            BorderThickness="1"
+                            CornerRadius="4"
+                            Padding="10,8"
+                            Margin="0,0,0,10">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="-EngineIni=Engine.ini"
+                                       FontFamily="Consolas"
+                                       FontSize="12"
+                                       Foreground="{StaticResource WuWaGoldBrush}" />
+                            <TextBlock Text=""
+                                       FontSize="11"
+                                       Foreground="{StaticResource WuWaTextMutedBrush}"
+                                       VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+
+                    <!-- DX API choice -->
+                    <TextBlock Text="DirectX API"
+                        Foreground="{StaticResource WuWaTextMutedBrush}"
+                        FontSize="12"
+                        Margin="0,0,0,6" />
+                    <ComboBox ItemsSource="{Binding DxApiOptions}"
+                        SelectedItem="{Binding SelectedDxApi}"
+                        Background="#0D1117"
+                        Foreground="{StaticResource WuWaTextBrush}"
+                        Width="120"
+                        HorizontalAlignment="Left"
+                        Margin="0,0,0,10" />
+
+                    <!-- Custom flags -->
+                    <TextBlock Text="Additional Launch Options"
+                               Foreground="{StaticResource WuWaTextMutedBrush}"
+                               FontSize="12"
+                               Margin="0,0,0,6" />
+                    <ui:TextBox Text="{Binding CustomFlagsInput, UpdateSourceTrigger=PropertyChanged}"
+                             Background="#0D1117"
+                             Foreground="{StaticResource WuWaTextBrush}"
+                             BorderBrush="{StaticResource WuWaBorderBrush}"
+                             Padding="10,8"
+                             FontFamily="Consolas"
+                             FontSize="12"
+                             PlaceholderText="-SkipSplash" />
+                </StackPanel>
+            </Border>
+
+            <!-- Launch Button -->
+            <Button Command="{Binding LaunchGameCommand}"
+                    Height="52"
+                    Cursor="Hand"
+                    Margin="0,8,0,0">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="{StaticResource WuWaGoldGradientBrush}" />
+                        <Setter Property="Foreground" Value="#0D1117" />
+                        <Setter Property="BorderThickness" Value="0" />
+                        <Setter Property="FontSize" Value="15" />
+                        <Setter Property="FontWeight" Value="Bold" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Button">
+                                    <Border x:Name="border"
+                                            Background="{TemplateBinding Background}"
+                                            CornerRadius="8">
+                                        <ContentPresenter HorizontalAlignment="Center"
+                                                          VerticalAlignment="Center" />
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="border" Property="Opacity" Value="0.9" />
+                                        </Trigger>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter TargetName="border" Property="Opacity" Value="0.4" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+                <TextBlock Text="▶  LAUNCH WUTHERING WAVES"
+                           FontSize="14"
+                           FontWeight="Bold"
+                            />
+            </Button>
+
+        </StackPanel>
+    </ScrollViewer>
+</Page>
