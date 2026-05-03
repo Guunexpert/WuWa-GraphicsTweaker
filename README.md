@@ -9,10 +9,11 @@ With Simple GUI<br>
 # Main Feature
 - [x] Detect Engine.ini Automaticaly
 - [x] Backup the Engine.ini setting
-- [ ] Can Uncap 60 FPS
+- [x] Can Uncap 60 FPS (need fullscreen)
 - [x] Can Modify game resolution
 - [x] Set Distance scale Object
 - [x] Disable/Enable shadow
+- And many more....
 
 # How To Use
 
