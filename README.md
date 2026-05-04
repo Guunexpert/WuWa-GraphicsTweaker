@@ -5,6 +5,7 @@
 
 # Tweak Graphics
 With Simple GUI<br>
+Made for potato spec community who loves play WuWa<br>
 
 # Main Feature
 - [x] Detect Engine.ini Automaticaly
