@@ -18,8 +18,29 @@ Made for potato spec community who loves play WuWa<br>
 
 # How To Use
 
-- Download [.NET 10.0](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-10.0.7-windows-x64-installer?cid=getdotnetcore)
-- Download from [Release](https://github.com/GunahD/Graphics-Editor-for-Wuwa-game/releases) tab
+- Download [.NET 10.0 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-10.0.7-windows-x64-installer?cid=getdotnetcore)
+- Download from [Release](https://github.com/Guunexpert/WuWa-GraphicsTweaker/releases) tab
 - Place in your Wuthering Waves files
 
-oh yeah use it at own risk!
+> ⚠️ Use at your own risk!
+
+---
+
+# Build from Source
+
+### Requirements
+- [.NET 10 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)
+- Visual Studio 2022 or newer with **WPF workload** installed
+
+### Steps
+```bash
+git clone https://github.com/Guunexpert/WuWa-GraphicsTweaker.git
+cd WuWa-GraphicsTweaker
+dotnet build
+```
+
+### Publish single exe
+```bash
+dotnet publish -c Release
+```
+Output: `bin\Release\net10.0-windows\win-x64\publish\`
