@@ -88,7 +88,7 @@
                                 Margin="0,0,4,0"
                                 MouseLeftButtonDown="SteamToggle_Click">
                             <StackPanel HorizontalAlignment="Center">
-                                <Image Source="pack://siteoforigin:,,,/steam_logo.png"
+                                <Image Source="pack://application:,,,/Views/steam_logo.png"
                                        Width="48"
                                        Height="48"
                                        RenderOptions.BitmapScalingMode="HighQuality"
@@ -118,7 +118,7 @@
                                 Margin="4,0,0,0"
                                 MouseLeftButtonDown="KuroToggle_Click">
                             <StackPanel HorizontalAlignment="Center">
-                                <Image Source="pack://siteoforigin:,,,/kuro_logo.png"
+                                <Image Source="pack://application:,,,/Views/kuro_logo.png"
                                        Width="48"
                                        Height="48"
                                        RenderOptions.BitmapScalingMode="HighQuality"

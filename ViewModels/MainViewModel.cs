@@ -42,8 +42,7 @@ public partial class MainViewModel : ObservableObject
             GamePath = path;
             IsGameFound = true;
             LauncherType = detectedLauncher;
-            var launcherName = detectedLauncher == LauncherType.Steam ? "Steam" : "Kuro Launcher";
-            StatusMessage = $"✓ Game found ({launcherName})";
+            StatusMessage = $"✓ Game found ({LauncherName(detectedLauncher)})";
             StatusColor = "#3FB950";
             Tweaks.LoadFromGame(GamePath);
         }
@@ -68,17 +67,16 @@ public partial class MainViewModel : ObservableObject
         if (dialog.ShowDialog() != true) return;
 
         var exeDir = Path.GetDirectoryName(dialog.FileName)!;
-        var root = Path.GetFullPath(Path.Combine(exeDir, @"..\..\..\"));
 
-        GamePath = root;
+        var root3 = Path.GetFullPath(Path.Combine(exeDir, @"..\..\..\"));
+        var root4 = Path.GetFullPath(Path.Combine(exeDir, @"..\..\..\..\"));
+
+        GamePath = _pathDetector.IsValid(root3) ? root3
+                 : _pathDetector.IsValid(root4) ? root4
+                 : root3;
+
         IsGameFound = true;
-        _pathDetector.SetLauncherType(GamePath, LauncherType, out var validatedPath);
-        if (validatedPath != null)
-        {
-            GamePath = validatedPath;
-        }
-        var launcherName = LauncherType == LauncherType.Steam ? "Steam" : "Kuro Launcher";
-        StatusMessage = $"✓ Path is set manually ({launcherName})";
+        StatusMessage = $"✓ Path is set manually ({LauncherName(LauncherType)})";
         StatusColor = "#3FB950";
         Tweaks.LoadFromGame(GamePath);
     }
@@ -88,12 +86,8 @@ public partial class MainViewModel : ObservableObject
         if (IsGameFound)
         {
             _pathDetector.SetLauncherType(GamePath, value, out var validatedPath);
-            if (validatedPath != null)
-            {
-                GamePath = validatedPath;
-            }
-            var launcherName = value == LauncherType.Steam ? "Steam" : "Kuro Launcher";
-            StatusMessage = $"✓ Game found ({launcherName})";
+            if (validatedPath != null) GamePath = validatedPath;
+            StatusMessage = $"✓ Game found ({LauncherName(value)})";
             StatusColor = "#3FB950";
         }
     }
@@ -110,8 +104,7 @@ public partial class MainViewModel : ObservableObject
 
         Tweaks.ApplyToGame(GamePath);
         _launcher.Launch(GamePath, LauncherType, extraFlags);
-        var launcherName = LauncherType == LauncherType.Steam ? "Steam" : "Kuro Launcher";
-        StatusMessage = $"Game launched! ({launcherName})";
+        StatusMessage = $"Game launched! ({LauncherName(LauncherType)})";
     }
 
     [RelayCommand]
@@ -121,7 +114,8 @@ public partial class MainViewModel : ObservableObject
         {
             Name = presetName,
             EngineIniSettings = new Dictionary<string, string>(Tweaks.EngineSettings),
-            LaunchFlags = [SelectedDxApi, .. CustomFlagsInput.Split(' ', StringSplitOptions.RemoveEmptyEntries)]
+            LaunchFlags = [SelectedDxApi, .. CustomFlagsInput.Split(' ', StringSplitOptions.RemoveEmptyEntries)],
+            LauncherType = LauncherType
         };
 
         _presetService.Save(preset);
@@ -133,8 +127,11 @@ public partial class MainViewModel : ObservableObject
     {
         SelectedPreset = preset;
         Tweaks.LoadFromPreset(preset);
+
         var dx = preset.LaunchFlags.FirstOrDefault(f => f.StartsWith("-dx") || f == "-vulkan");
         if (dx != null) SelectedDxApi = dx;
+
+        LauncherType = preset.LauncherType;
     }
 
     [RelayCommand]
@@ -145,4 +142,7 @@ public partial class MainViewModel : ObservableObject
     }
 
     private void LoadPresets() => Presets = _presetService.LoadAll();
+
+    private static string LauncherName(LauncherType t) =>
+        t == LauncherType.Steam ? "Steam" : "Kuro Launcher";
 }
