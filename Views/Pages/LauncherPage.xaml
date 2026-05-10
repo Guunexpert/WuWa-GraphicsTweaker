@@ -64,6 +64,83 @@
                 </StackPanel>
             </Border>
 
+            <!-- Launcher Type Toggle -->
+            <Border Style="{StaticResource CardStyle}" Margin="0,0,0,12">
+                <StackPanel>
+                    <TextBlock Text="LAUNCHER TYPE"
+                               FontSize="9"
+                               FontWeight="Bold"
+                               Foreground="{StaticResource WuWaTextMutedBrush}"
+                               Margin="0,0,0,10" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0"
+                                Background="{Binding LauncherType, Converter={StaticResource LauncherToSteamBg}}"
+                                CornerRadius="8"
+                                Padding="16,14"
+                                Cursor="Hand"
+                                BorderBrush="{Binding LauncherType, Converter={StaticResource LauncherToSteamBorder}}"
+                                BorderThickness="2"
+                                Margin="0,0,4,0"
+                                MouseLeftButtonDown="SteamToggle_Click">
+                            <StackPanel HorizontalAlignment="Center">
+                                <Image Source="pack://siteoforigin:,,,/steam_logo.png"
+                                       Width="48"
+                                       Height="48"
+                                       RenderOptions.BitmapScalingMode="HighQuality"
+                                       HorizontalAlignment="Center"
+                                       Margin="0,0,0,8" />
+                                <TextBlock Text="STEAM"
+                                           FontSize="13"
+                                           FontWeight="Bold"
+                                           Foreground="{Binding LauncherType, Converter={StaticResource LauncherToSteamText}}"
+                                           HorizontalAlignment="Center" />
+                                <TextBlock Text="Steam Platform"
+                                           FontSize="9"
+                                           Foreground="{Binding LauncherType, Converter={StaticResource LauncherToSteamText}}"
+                                           Opacity="0.6"
+                                           HorizontalAlignment="Center"
+                                           Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Grid.Column="1"
+                                Background="{Binding LauncherType, Converter={StaticResource LauncherToKuroBg}}"
+                                CornerRadius="8"
+                                Padding="16,14"
+                                Cursor="Hand"
+                                BorderBrush="{Binding LauncherType, Converter={StaticResource LauncherToKuroBorder}}"
+                                BorderThickness="2"
+                                Margin="4,0,0,0"
+                                MouseLeftButtonDown="KuroToggle_Click">
+                            <StackPanel HorizontalAlignment="Center">
+                                <Image Source="pack://siteoforigin:,,,/kuro_logo.png"
+                                       Width="48"
+                                       Height="48"
+                                       RenderOptions.BitmapScalingMode="HighQuality"
+                                       HorizontalAlignment="Center"
+                                       Margin="0,0,0,8" />
+                                <TextBlock Text="KURO"
+                                           FontSize="13"
+                                           FontWeight="Bold"
+                                           Foreground="{Binding LauncherType, Converter={StaticResource LauncherToKuroText}}"
+                                           HorizontalAlignment="Center" />
+                                <TextBlock Text="Kuro Launcher"
+                                           FontSize="9"
+                                           Foreground="{Binding LauncherType, Converter={StaticResource LauncherToKuroText}}"
+                                           Opacity="0.6"
+                                           HorizontalAlignment="Center"
+                                           Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
             <!-- Launch Flags Card -->
             <Border Style="{StaticResource CardStyle}" Margin="0,0,0,12">
                 <StackPanel>

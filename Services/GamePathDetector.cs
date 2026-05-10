@@ -1,10 +1,11 @@
 using Microsoft.Win32;
 using System.IO;
+using PhoebeEditor.Models;
+
 namespace PhoebeEditor.Services;
 
 public class GamePathDetector
 {
-    // Steam App ID untuk Wuthering Waves
     private const string SteamAppId = "3513350";
 
     private static readonly string[] CommonSteamPaths =
@@ -17,18 +18,53 @@ public class GamePathDetector
         @"E:\SteamLibrary\steamapps\common\Wuthering Waves",
     ];
 
-    public string? Detect()
+    private static readonly string[] CommonKuroPaths =
+    [
+        @"C:\Wuthering Waves",
+        @"C:\Program Files\Wuthering Waves",
+        @"D:\Wuthering Waves",
+        @"E:\Wuthering Waves",
+        @"F:\Wuthering Waves",
+    ];
+
+    public (string? path, LauncherType launcher) Detect()
     {
-        // 1. Coba cari via Steam registry
+        var steamPath = TryDetectSteam();
+        if (steamPath != null) return (steamPath, LauncherType.Steam);
+
+        var kuroPath = TryDetectKuro();
+        if (kuroPath != null) return (kuroPath, LauncherType.Kuro);
+
+        return (null, LauncherType.Steam);
+    }
+
+    public void SetLauncherType(string gamePath, LauncherType launcher, out string? validatedPath)
+    {
+        if (launcher == LauncherType.Steam)
+        {
+            validatedPath = TryDetectSteam() ?? TryFromSteamLibrary() ?? TryFromCommonPaths(CommonSteamPaths);
+        }
+        else
+        {
+            validatedPath = TryDetectKuro() ?? TryFromCommonPaths(CommonKuroPaths);
+        }
+
+        if (validatedPath == null && IsValidGamePath(gamePath, launcher))
+        {
+            validatedPath = gamePath;
+        }
+    }
+
+    private string? TryDetectSteam()
+    {
         var fromRegistry = TryFromRegistry();
         if (fromRegistry != null) return fromRegistry;
+        return TryFromSteamLibrary();
+    }
 
-        // 2. Coba cari via Steam library folders
-        var fromLibrary = TryFromSteamLibrary();
-        if (fromLibrary != null) return fromLibrary;
-
-        // 3. Fallback ke common paths
-        return TryFromCommonPaths();
+    private string? TryDetectKuro()
+    {
+        return TryFromCommonPaths(CommonKuroPaths);
     }
 
     private string? TryFromRegistry()
@@ -39,7 +75,7 @@ public class GamePathDetector
                 $@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App {SteamAppId}");
 
             var installLocation = key?.GetValue("InstallLocation") as string;
-            if (!string.IsNullOrEmpty(installLocation) && IsValidGamePath(installLocation))
+            if (!string.IsNullOrEmpty(installLocation) && IsValidGamePath(installLocation, LauncherType.Steam))
                 return installLocation;
         }
         catch { /* ignored */ }
@@ -51,7 +87,6 @@ public class GamePathDetector
     {
         try
         {
-            // Cari instalasi Steam dari registry
             using var steamKey = Registry.CurrentUser.OpenSubKey(@"Software\Valve\Steam");
             var steamPath = steamKey?.GetValue("SteamPath") as string;
             if (string.IsNullOrEmpty(steamPath)) return null;
@@ -59,7 +94,6 @@ public class GamePathDetector
             var vdfPath = Path.Combine(steamPath, "steamapps", "libraryfolders.vdf");
             if (!File.Exists(vdfPath)) return null;
 
-            // Parse libraryfolders.vdf untuk dapet semua Steam library paths
             var lines = File.ReadAllLines(vdfPath);
             foreach (var line in lines)
             {
@@ -71,7 +105,7 @@ public class GamePathDetector
                 var libraryPath = parts[3].Replace(@"\\", @"\");
                 var gamePath = Path.Combine(libraryPath, "steamapps", "common", "Wuthering Waves");
 
-                if (IsValidGamePath(gamePath))
+                if (IsValidGamePath(gamePath, LauncherType.Steam))
                     return gamePath;
             }
         }
@@ -80,18 +114,23 @@ public class GamePathDetector
         return null;
     }
 
-    private string? TryFromCommonPaths()
+    private string? TryFromCommonPaths(string[] paths)
     {
-        return CommonSteamPaths.FirstOrDefault(IsValidGamePath);
+        return paths.FirstOrDefault(p => IsValidGamePath(p, LauncherType.Steam))
+            ?? paths.FirstOrDefault(p => IsValidGamePath(p, LauncherType.Kuro));
     }
 
-    private bool IsValidGamePath(string path)
+    private bool IsValidGamePath(string path, LauncherType launcher)
     {
         if (string.IsNullOrEmpty(path) || !Directory.Exists(path)) return false;
 
-        var exePath1 = Path.Combine(path, "Client", "Binaries", "Win64", "Client-Win64-Shipping.exe");
-        var exePath2 = Path.Combine(path, "Wuthering Waves Game", "Client", "Binaries", "Win64", "Client-Win64-Shipping.exe");
+        var gameFolder = launcher == LauncherType.Steam
+            ? Path.Combine(path, "Wuthering Waves Game", "Client", "Binaries", "Win64", "Client-Win64-Shipping.exe")
+            : Path.Combine(path, "Wuthering Waves Game", "Client", "Binaries", "Win64", "Client-Win64-Shipping.exe");
 
-        return File.Exists(exePath1) || File.Exists(exePath2);
+        if (File.Exists(gameFolder)) return true;
+
+        var altPath = Path.Combine(path, "Client", "Binaries", "Win64", "Client-Win64-Shipping.exe");
+        return File.Exists(altPath);
     }
 }

@@ -1,0 +1,73 @@
+<Window x:Class="PhoebeEditor.Views.SplashScreen"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:gif="http://wpfanimatedgif.codeplex.com"
+        Title="Phoebe Editor"
+        Width="500" Height="320"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        AllowsTransparency="True"
+        Background="Transparent"
+        Opacity="0">
+
+    <Border CornerRadius="16"
+            Background="Transparent"
+            BorderBrush="#30363D"
+            BorderThickness="0"
+            ClipToBounds="True">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Image Grid.Row="0"
+                   gif:ImageBehavior.AnimatedSource="phoebe.gif"
+                   gif:ImageBehavior.AutoStart="True"
+                   Stretch="Uniform"
+                   Margin="20,20,20,0" />
+
+            <StackPanel Grid.Row="1" Margin="16,12,16,16">
+
+                <Border Background="#161B22"
+                        CornerRadius="8"
+                        Padding="12,8"
+                        Margin="0,0,0,8"
+                        BorderBrush="#30363D"
+                        BorderThickness="1">
+                    <TextBlock x:Name="StatusText"
+                               Text="Initializing..."
+                               Foreground="#8B949E"
+                               FontSize="11"
+                               HorizontalAlignment="Center" />
+                </Border>
+
+                <Border Background="#1C2128"
+                        CornerRadius="8"
+                        Padding="12,8"
+                        BorderBrush="#30363D"
+                        BorderThickness="1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0"
+                                   x:Name="VersionText"
+                                   Text="v0.0.0"
+                                   Foreground="#8B949E"
+                                   FontSize="10" />
+
+                        <TextBlock Grid.Column="1"
+                                   Text="Phoebe Editor"
+                                   Foreground="#F0B050"
+                                   FontSize="10"
+                                   FontWeight="Bold" />
+                    </Grid>
+                </Border>
+
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

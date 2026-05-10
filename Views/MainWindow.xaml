@@ -163,6 +163,24 @@
                 <Frame x:Name="MainFrame"
                        Grid.Row="1"
                        NavigationUIVisibility="Hidden" Background="{x:Null}" />
+
+                <!-- Update Notification Bar -->
+                <Border x:Name="UpdateBanner"
+                        Grid.Row="0"
+                        Background="#388E3C"
+                        CornerRadius="8"
+                        Padding="12,8"
+                        Margin="8,4,56,4"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Visibility="Collapsed"
+                        Cursor="Hand"
+                        MouseLeftButtonDown="UpdateBanner_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Update available: " Foreground="White" FontSize="12" FontWeight="Medium" VerticalAlignment="Center" />
+                        <TextBlock x:Name="UpdateVersionText" Foreground="#E8F5E9" FontSize="12" FontWeight="Bold" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Border>
             </Grid>
         </Grid>
     </Border>

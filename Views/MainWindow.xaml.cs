@@ -12,6 +12,9 @@ namespace PhoebeEditor.Views;
 public partial class MainWindow : Window
 {
     public MainViewModel ViewModel { get; }
+    public bool UpdateAvailable { get; set; }
+    public string UpdateUrl { get; set; } = string.Empty;
+    public string UpdateVersion { get; set; } = string.Empty;
 
     private readonly Dictionary<string, Page?> _pageCache = new()
     {
@@ -93,4 +96,20 @@ public partial class MainWindow : Window
 
     private void MinimizeButton_Click(object sender, RoutedEventArgs e)
         => WindowState = WindowState.Minimized;
+
+    protected override void OnContentRendered(EventArgs e)
+    {
+        base.OnContentRendered(e);
+        if (UpdateAvailable)
+        {
+            UpdateVersionText.Text = UpdateVersion;
+            UpdateBanner.Visibility = Visibility.Visible;
+        }
+    }
+
+    private void UpdateBanner_Click(object sender, MouseButtonEventArgs e)
+    {
+        if (!string.IsNullOrEmpty(UpdateUrl))
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(UpdateUrl) { UseShellExecute = true });
+    }
 }

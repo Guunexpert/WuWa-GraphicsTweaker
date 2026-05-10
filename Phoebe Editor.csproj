@@ -16,12 +16,14 @@
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
     <PackageReference Include="WPF-UI" Version="4.2.1" />
+    <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="phoebe.ico" />
     <Resource Include="Resources\WutheringWavesIndonesia-Regular.otf" />
     <Resource Include="Views\phoebe.png" />
+    <Resource Include="Views\phoebe.gif" />
     <Resource Include="Views\Pages\wuwa.png" />
   </ItemGroup>
 
@@ -30,6 +32,12 @@
 	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	</Content>
     <Content Include="Views\phoebefullbody.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\steam_logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\kuro_logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Pages\hiyuki-wuthering-waves.1920x1080.mov">
