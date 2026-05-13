@@ -2,14 +2,8 @@ using System.Text;
 using System.IO;
 namespace PhoebeEditor.Services;
 
-/// <summary>
-/// Service untuk baca/tulis file .ini dengan preserve existing content
-/// </summary>
 public class IniFileService
 {
-    /// <summary>
-    /// Baca semua key-value dari section tertentu
-    /// </summary>
     public Dictionary<string, string> ReadSection(string filePath, string section)
     {
         var result = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
@@ -43,9 +37,6 @@ public class IniFileService
         return result;
     }
 
-    /// <summary>
-    /// Tulis settings ke section, preserve section lain yang sudah ada
-    /// </summary>
     public void WriteSection(string filePath, string section, Dictionary<string, string> settings)
     {
         Directory.CreateDirectory(Path.GetDirectoryName(filePath)!);
@@ -60,7 +51,6 @@ public class IniFileService
 
         if (sectionStart == -1)
         {
-            // Section belum ada, tambah di bawah
             if (lines.Count > 0 && !string.IsNullOrWhiteSpace(lines[^1]))
                 lines.Add(string.Empty);
 
@@ -70,7 +60,6 @@ public class IniFileService
         }
         else
         {
-            // Cari akhir section
             var sectionEnd = sectionStart + 1;
             while (sectionEnd < lines.Count)
             {
@@ -78,8 +67,6 @@ public class IniFileService
                 if (l.StartsWith('[')) break;
                 sectionEnd++;
             }
-
-            // Hapus isi section lama, ganti dengan yang baru
             lines.RemoveRange(sectionStart + 1, sectionEnd - sectionStart - 1);
             var newLines = settings.Select(kvp => $"{kvp.Key}={kvp.Value}").ToList();
             lines.InsertRange(sectionStart + 1, newLines);
@@ -88,9 +75,6 @@ public class IniFileService
         File.WriteAllLines(filePath, lines, Encoding.UTF8);
     }
 
-    /// <summary>
-    /// Upsert satu key di section (tanpa ngubah key lain)
-    /// </summary>
     public void SetValue(string filePath, string section, string key, string value)
     {
         var existing = ReadSection(filePath, section);
@@ -98,9 +82,6 @@ public class IniFileService
         WriteSection(filePath, section, existing);
     }
 
-    /// <summary>
-    /// Baca semua sections yang ada di file
-    /// </summary>
     public List<string> GetSections(string filePath)
     {
         if (!File.Exists(filePath)) return [];
