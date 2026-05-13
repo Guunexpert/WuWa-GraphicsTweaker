@@ -50,7 +50,17 @@ public class UpdateService
         return version?.ToString(3) ?? "0.0.0";
     }
 
-    private static string NormalizeVersion(string tag) => tag.TrimStart('v', 'V');
+    private static string NormalizeVersion(string tag)
+    {
+    var clean = tag.TrimStart('v', 'V');
+    var parts = clean.Split('.');
+    return parts.Length switch
+    {
+        1 => $"{clean}.0.0",
+        2 => $"{clean}.0",
+        _ => clean
+    };
+    }
 
     private static int CompareVersions(string a, string b)
     {
