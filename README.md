@@ -1,4 +1,17 @@
 <div align="center">
+<h1>THIS SOFTWARE MAY NOT WORK FOR NOW</h1>
+  
+</div>
+
+> [!IMPORTANT]
+Current ``Engine.ini`` won't work properly if you don't delete ``UserEngine.ini`` (if you still have it), so remove it at this location:<br>
+``...Wuthering Waves\Wuthering Waves Game\Client\Config (Launcher)``<br>
+``...Wuthering Waves\Client\Config (Steam)``<br><br>
+The ``-EngineIni=Engine.ini`` is automatically on software so gonna remove this soon !
+
+
+
+<div align="center">
 <img src="images/phoebe.png" alt="phoebe" width="200"/>
 <h1>Phoebe Editor Reloaded</h1>
 </div>
@@ -12,7 +25,7 @@ Made for potato spec community who loves play WuWa<br>
 - [x] Backup the Engine.ini setting
 - [x] Can Uncap 60 FPS (need fullscreen)
 - [x] Can Modify game resolution
-- [x] Set Distance scale Object
+- [x] Set Distance Object
 - [x] Disable/Enable shadow
 - And many more....
 
