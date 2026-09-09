@@ -184,7 +184,7 @@ public class IniFileService
         Directory.CreateDirectory(backupDirectory);
 
         var timestamp =
-            DateTime.Now.ToString("yyyyMMdd_HHmmss");
+            DateTime.Now.ToString("yyyyMMdd_HHmmss_fff");
 
         var backupPath = Path.Combine(
             backupDirectory,
